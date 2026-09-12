@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>COMFESTA 2K26 | Department of Computer Science Engineering</title>
+<meta name="description" content="COMFESTA 2K26 — the flagship technical symposium of the Department of Computer Science Engineering, UCEV. Code. Compete. Conquer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ===== PRELOADER ===== -->
+<div id="preloader" role="status" aria-label="Loading COMFESTA 2K26">
+  <div class="pre-vignette"></div>
+  <div class="pre-terminal">
+    <div class="pre-term-bar">
+      <span class="pre-dot r"></span><span class="pre-dot y"></span><span class="pre-dot g"></span>
+      <span class="pre-term-title">comfesta@ucev-cse:~</span>
+    </div>
+    <div class="pre-term-body" id="termBody"></div>
+    <div class="pre-cursor" id="termCursor">█</div>
+  </div>
+  <div class="pre-brand-text">COMFESTA <span>2K26</span></div>
+</div>
+
+<!-- ===== CUSTOM CURSOR ===== -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- ===== SCROLL PROGRESS ===== -->
+<div class="scroll-progress" id="scrollProgress" role="progressbar" aria-label="Scroll progress"></div>
+
+<!-- ===== EVENT MODAL ===== -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-content" tabindex="-1">
+    <button class="modal-close" id="modalClose" aria-label="Close modal">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <div class="modal-inner">
+      <span class="modal-tag" id="modalTag">Technical</span>
+      <h2 class="modal-title" id="modalTitle">Event Title</h2>
+      <p class="modal-desc" id="modalDesc">Description.</p>
+      <div class="modal-meta">
+        <div class="modal-meta-item"><span class="meta-label">Team size</span><strong id="modalTeam">—</strong></div>
+        <div class="modal-meta-item"><span class="meta-label">Eligibility</span><strong id="modalEligibility">—</strong></div>
+        <div class="modal-meta-item"><span class="meta-label">Prize</span><strong id="modalPrize">—</strong></div>
+      </div>
+      <div class="modal-section">
+        <h3>Rules</h3>
+        <ul id="modalRules"></ul>
+      </div>
+      <div class="modal-section">
+        <h3>Judging criteria</h3>
+        <p id="modalJudging" class="modal-judging"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-container">
+    <a href="#home" class="nav-brand" aria-label="COMFESTA 2K26 - Go to home">
+      <img src="logo.png" alt="Anna University emblem" class="nav-logo-img" width="32" height="32">
+      <span class="nav-brand-text">COMFESTA</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks" role="list">
+      <a href="#home"           class="nav-link" role="listitem">Home</a>
+      <a href="#about"          class="nav-link" role="listitem">About</a>
+      <a href="#events"         class="nav-link" role="listitem">Events</a>
+      <a href="#schedule"       class="nav-link" role="listitem">Schedule</a>
+      <a href="#register-section" class="nav-link" role="listitem">Register</a>
+      <a href="#guidelines"     class="nav-link" role="listitem">Guidelines</a>
+      <a href="#coordinators"   class="nav-link" role="listitem">Team</a>
+      <a href="#venue"          class="nav-link" role="listitem">Venue</a>
+      <a href="#faq"            class="nav-link" role="listitem">FAQ</a>
+      <a href="#register-section" class="nav-cta-btn" role="listitem">Register →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== CINEMATIC INTRO (scroll-driven) ===== -->
+<section id="home" class="intro-section" aria-label="Cinematic intro">
+<div class="intro-sticky" id="introSticky">
+  <!-- College video as 3D living surface -->
+  <div class="video-scene" id="videoScene">
+    <div class="video-wrapper" id="videoWrapper">
+      <video id="collegeVideo" autoplay loop muted playsinline preload="auto"
+             aria-label="University College of Engineering, Villupuram campus video">
+        <source src="campus-video.mp4" type="video/mp4">
+      </video>
+      <!-- cinematic overlays -->
+      <div class="video-vignette"></div>
+      <div class="video-grain" aria-hidden="true"></div>
+      <div class="video-scanlines" aria-hidden="true"></div>
+      <div class="video-chromatic" aria-hidden="true"></div>
+      <!-- atmospheric haze -->
+      <div class="video-haze"></div>
+    </div>
+    <!-- particles over video -->
+    <canvas class="particles-canvas" id="particlesCanvas" aria-hidden="true"></canvas>
+  </div>
+
+  <!-- Scene 1: College visual only -->
+  <div class="scene-1" id="scene1" aria-hidden="true">
+    <div class="s1-overlay">
+      <img src="logo.png" alt="Anna University emblem" class="s1-logo" width="80" height="80">
+      <p class="s1-college">University College of Engineering, Villupuram</p>
+    </div>
+  </div>
+
+  <!-- Scene 2: Department presents -->
+  <div class="scene-2" id="scene2" aria-hidden="true">
+    <div class="s2-text-wrap">
+      <p class="s2-dept" id="s2Dept">UCEV CSE DEPARTMENT</p>
+      <p class="s2-presents" id="s2Presents">PROUDLY PRESENTS</p>
+    </div>
+  </div>
+
+  <!-- Scene 3: COMFESTA reveal -->
+  <div class="scene-3" id="scene3" aria-hidden="true">
+    <div class="s3-wrap">
+      <div class="comfesta-letters" id="comfestaLetters" aria-label="COMFESTA">
+        <span class="cf-letter" style="--i:0">C</span>
+        <span class="cf-letter" style="--i:1">O</span>
+        <span class="cf-letter" style="--i:2">M</span>
+        <span class="cf-letter" style="--i:3">F</span>
+        <span class="cf-letter" style="--i:4">E</span>
+        <span class="cf-letter" style="--i:5">S</span>
+        <span class="cf-letter" style="--i:6">T</span>
+        <span class="cf-letter" style="--i:7">A</span>
+      </div>
+      <div class="s3-year" id="s3Year">2K26</div>
+      <div class="s3-tagline" id="s3Tagline">CODE. COMPETE. CONQUER.</div>
+    </div>
+  </div>
+
+  <!-- Hero CTA (final state of intro) -->
+  <div class="hero-cta" id="heroCta" aria-label="Hero call to action">
+    <div class="hero-pills">
+      <span class="hero-pill"><i class="fa-solid fa-calendar" aria-hidden="true"></i> Sep 30, 2026</span>
+      <span class="hero-pill"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> UCEV Campus</span>
+      <span class="hero-pill"><i class="fa-solid fa-indian-rupee-sign" aria-hidden="true"></i> ₹200 Online</span>
+      <span class="hero-pill"><i class="fa-solid fa-trophy" aria-hidden="true"></i> ₹25,000 Pool</span>
+    </div>
+    <div class="timer-section">
+      <div class="timer-label">Countdown to inauguration</div>
+      <div id="timer" class="timer-display" aria-live="polite">00d 00h 00m 00s</div>
+    </div>
+    <div class="hero-actions">
+      <a href="#register-section" class="btn-primary magnetic-btn">
+        <span>Register Now</span>
+        <svg class="btn-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#events" class="btn-secondary magnetic-btn">Explore Events</a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator" id="scrollIndicator" aria-label="Scroll to explore">
+    <span>SCROLL TO ENTER CAMPUS</span>
+    <div class="scroll-line"></div>
+  </div>
+</div><!-- /.intro-sticky -->
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="section-label">01 — About</div>
+    <h2 class="section-headline" data-split>About COMFESTA</h2>
+    <div class="about-layout">
+      <div class="about-text-col">
+        <p class="about-lead">
+          COMFESTA 2K26 is the flagship technical symposium of the
+          <strong>Department of Computer Science Engineering</strong>,
+          built for students who think in code and build in the open.
+        </p>
+        <p class="about-body">
+          Across a single day, the department turns into a sandbox for innovation — where research meets
+          rapid prototyping, algorithms meet artificial intelligence, and quiet coders get a stage. From
+          high-stakes coding contests to AI-assisted builds and campus-wide puzzle hunts, COMFESTA is where
+          technology meets talent, and collaboration outpaces competition.
+        </p>
+        <div class="about-tags">
+          <span class="about-tag">Innovation</span>
+          <span class="about-tag">AI &amp; Emerging Tech</span>
+          <span class="about-tag">Competitive Coding</span>
+          <span class="about-tag">Creativity</span>
+          <span class="about-tag">Networking</span>
+          <span class="about-tag">Student Collaboration</span>
+        </div>
+      </div>
+      <div class="about-stats-col">
+        <div class="stat-card">
+          <div class="stat-number" data-count="8">0</div>
+          <div class="stat-label">Events</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-prefix="₹" data-count="25000">₹0</div>
+          <div class="stat-label">Prize Pool</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="1">0</div>
+          <div class="stat-label">Epic Day</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-count="200" data-suffix="+">0</div>
+          <div class="stat-label">Participants Expected</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== BROCHURE + EVENTS ===== -->
+<section id="events" class="section section-dark">
+  <div class="container">
+    <div class="section-label">02 — Events</div>
+    <h2 class="section-headline">Experience COMFESTA</h2>
+
+    <!-- 3D Brochure -->
+    <div class="brochure-zone">
+      <div class="brochure-label">
+        <span class="brochure-badge">Digital Brochure</span>
+        <p class="brochure-hint"><i class="fa-solid fa-hand-pointer" aria-hidden="true"></i> Scroll inside the list · Tap any event name for full details</p>
+      </div>
+      <div class="brochure-frame-wrap">
+        <iframe
+          id="brochureFrame"
+          src="brochure-frame.html"
+          title="COMFESTA 2K26 Digital Brochure"
+          loading="lazy"
+          frameborder="0"
+          scrolling="no"
+          aria-label="COMFESTA brochure — Technical and Non-Technical events with registration links"
+        ></iframe>
+      </div>
+      <p class="brochure-caption">✦ The page scrolls normally outside the brochure · Scroll inside its event list to browse</p>
+    </div>
+
+    <!-- Technical Events -->
+    <div class="events-category">
+      <div class="cat-header">
+        <span class="cat-line cat-line--tech"></span>
+        <h3 class="cat-title tech">Technical Events</h3>
+        <span class="cat-line cat-line--tech"></span>
+      </div>
+      <div class="events-grid" id="techGrid">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+
+    <!-- Non-Technical Events -->
+    <div class="events-category">
+      <div class="cat-header">
+        <span class="cat-line cat-line--nontech"></span>
+        <h3 class="cat-title nontech">Non-Technical Events</h3>
+        <span class="cat-line cat-line--nontech"></span>
+      </div>
+      <div class="events-grid" id="nonTechGrid">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+
+    <!-- Prize Pool -->
+    <div class="prize-pool-section" id="prize-pool">
+      <div class="prize-pool-card">
+        <div class="prize-glow" aria-hidden="true"></div>
+        <div class="prize-label">Grand Prize Pool</div>
+        <div class="prize-amount">₹25,000</div>
+        <div class="prize-sub">Total cash prizes &amp; goodies across all events</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SCHEDULE ===== -->
+<section id="schedule" class="section">
+  <div class="container">
+    <div class="section-label">03 — Schedule</div>
+    <h2 class="section-headline">Event Schedule</h2>
+    <div class="schedule-timeline">
+      <div class="schedule-item">
+        <div class="sch-dot"></div>
+        <div class="sch-card">
+          <div class="sch-time">09:00 AM</div>
+          <h4>Inauguration Ceremony</h4>
+          <p>Official opening of COMFESTA 2K26</p>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="sch-dot"></div>
+        <div class="sch-card">
+          <div class="sch-time">10:00 AM</div>
+          <h4>Technical Events Begin</h4>
+          <p>Paper Presentation · Auction Coding · AI Vibe Coding · QR Decrypt Hunt</p>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="sch-dot"></div>
+        <div class="sch-card">
+          <div class="sch-time">12:30 PM</div>
+          <h4>Lunch Break</h4>
+          <p>Networking &amp; refreshments</p>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="sch-dot"></div>
+        <div class="sch-card">
+          <div class="sch-time">01:30 PM</div>
+          <h4>Non-Technical Events Begin</h4>
+          <p>Image Finding · Dumb Charades · Gaming Arena · Ads On Spot</p>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="sch-dot"></div>
+        <div class="sch-card">
+          <div class="sch-time">03:30 PM</div>
+          <h4>Final Rounds</h4>
+          <p>Finals &amp; semi-finals across all events</p>
+        </div>
+      </div>
+      <div class="schedule-item">
+        <div class="sch-dot schedule-dot-final"></div>
+        <div class="sch-card">
+          <div class="sch-time">04:30 PM</div>
+          <h4>Prize Distribution &amp; Valedictory</h4>
+          <p>Awards ceremony &amp; closing</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REGISTRATION ===== -->
+<section id="register-section" class="section section-dark">
+  <div class="container">
+    <div class="section-label">04 — Registration</div>
+    <h2 class="section-headline">Secure Your Spot</h2>
+    <div class="reg-layout">
+      <div class="reg-info-col">
+        <h3 class="reg-head">How Registration Works</h3>
+        <div class="reg-steps" id="how-it-works">
+          <div class="reg-step">
+            <div class="reg-step-num">01</div>
+            <div class="reg-step-body">
+              <h4>Submit the form</h4>
+              <p>Fill in your details and chosen events through the Google Form.</p>
+            </div>
+          </div>
+          <div class="reg-step">
+            <div class="reg-step-num">02</div>
+            <div class="reg-step-body">
+              <h4>Get your QR code</h4>
+              <p>A unique QR code is generated carrying your name, college, email, events, registration ID and payment status.</p>
+            </div>
+          </div>
+          <div class="reg-step">
+            <div class="reg-step-num">03</div>
+            <div class="reg-step-body">
+              <h4>Check your inbox</h4>
+              <p>The QR code, event details and registration ID arrive by email as confirmation.</p>
+            </div>
+          </div>
+          <div class="reg-step">
+            <div class="reg-step-num">04</div>
+            <div class="reg-step-body">
+              <h4>Scan-in at the venue</h4>
+              <p>Coordinators scan your QR at the entry desk — your details appear instantly and attendance is recorded.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reg-card-col">
+        <div class="reg-card">
+          <div class="reg-card-glow" aria-hidden="true"></div>
+          <div class="reg-status-badge">Open</div>
+          <div class="reg-card-brand">COMFESTA 2K26</div>
+
+          <!-- Registration pulse: live countdown + window progress + quick stats -->
+          <div class="reg-pulse" role="group" aria-label="Registration countdown and highlights">
+            <div class="pulse-countdown" aria-live="polite">
+              <div class="pulse-unit"><span class="pulse-num" id="pulseDays">--</span><span class="pulse-label">Days</span></div>
+              <span class="pulse-sep">:</span>
+              <div class="pulse-unit"><span class="pulse-num" id="pulseHours">--</span><span class="pulse-label">Hrs</span></div>
+              <span class="pulse-sep">:</span>
+              <div class="pulse-unit"><span class="pulse-num" id="pulseMins">--</span><span class="pulse-label">Min</span></div>
+            </div>
+            <div class="pulse-track-wrap">
+              <div class="pulse-track" aria-hidden="true"><div class="pulse-track-fill" id="pulseFill"></div></div>
+              <div class="pulse-track-label"><span id="pulseTrackText">Registration window open</span></div>
+            </div>
+            <div class="pulse-chips">
+              <div class="pulse-chip"><i class="fa-solid fa-indian-rupee-sign" aria-hidden="true"></i> ₹200 online · ₹250 spot</div>
+              <div class="pulse-chip"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> 8 events · 1 day</div>
+              <div class="pulse-chip"><i class="fa-solid fa-trophy" aria-hidden="true"></i> ₹25,000 prize pool</div>
+            </div>
+          </div>
+
+          <button class="btn-primary btn-full magnetic-btn" onclick="openReg()" aria-label="Register now for COMFESTA 2K26">
+            <span>Register Now</span>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="reg-venue-note">📅 Sep 30, 2026 · UCEV, Villupuram</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GUIDELINES ===== -->
+<section id="guidelines" class="section">
+  <div class="container">
+    <div class="section-label">05 — Guidelines</div>
+    <h2 class="section-headline">Rules &amp; Guidelines</h2>
+    <p class="section-sub">Please read carefully before you register</p>
+    <div class="guidelines-grid">
+      <div class="guide-card">
+        <div class="guide-icon" aria-hidden="true">👥</div>
+        <h3>Eligibility &amp; Teams</h3>
+        <ul class="guide-list">
+          <li>Open to UG and PG students from all recognized engineering institutions.</li>
+          <li>College ID card is mandatory at the venue.</li>
+          <li>Team members may belong to the same college or different colleges.</li>
+        </ul>
+      </div>
+      <div class="guide-card">
+        <div class="guide-icon" aria-hidden="true">📋</div>
+        <h3>Event Conduct</h3>
+        <ul class="guide-list">
+          <li><strong>Punctuality:</strong> Follow event timings strictly; latecomers may forfeit their slot.</li>
+          <li><strong>Discipline:</strong> Maintain professional conduct and respect the judges' decisions.</li>
+          <li><strong>Recognition:</strong> Certificates are issued to all registered participants.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="judging-section">
+      <h3 class="judging-title"><span>🏆</span> Symposium Judging Criteria</h3>
+      <div class="judging-grid">
+        <div class="judging-card">
+          <span class="judging-badge">Weighted</span>
+          <h4>Innovation &amp; Creativity</h4>
+          <p>Originality of the idea and uniqueness of the technical approach.</p>
+        </div>
+        <div class="judging-card">
+          <span class="judging-badge">Weighted</span>
+          <h4>Technical Depth</h4>
+          <p>Knowledge of core concepts and quality of implementation.</p>
+        </div>
+        <div class="judging-card">
+          <span class="judging-badge">Weighted</span>
+          <h4>Presentation</h4>
+          <p>Communication skills, clarity, and time management.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COORDINATORS ===== -->
+<section id="coordinators" class="section section-dark">
+  <div class="container">
+    <div class="section-label">06 — Team</div>
+    <h2 class="section-headline">Organizing Committee</h2>
+
+    <div class="coord-grid">
+      <div class="coord-card">
+        <div class="coord-role-tag">Faculty Coordinators</div>
+        <div class="coord-person">
+          <div class="coord-avatar" aria-hidden="true">VS</div>
+          <div>
+            <div class="coord-name">Dr. V. Savitha</div>
+            <a href="tel:+919000011111" class="coord-phone">📞 +91 90000 11111</a>
+          </div>
+        </div>
+        <div class="coord-person">
+          <div class="coord-avatar" aria-hidden="true">VA</div>
+          <div>
+            <div class="coord-name">Dr. V. Anitha</div>
+            <a href="tel:+919000022222" class="coord-phone">📞 +91 90000 22222</a>
+          </div>
+        </div>
+        <p class="coord-dept">Department of Computer Science Engineering</p>
+      </div>
+
+      <div class="coord-card">
+        <div class="coord-role-tag">Student Organizers</div>
+        <div class="coord-person">
+          <div class="coord-avatar" aria-hidden="true">MR</div>
+          <div>
+            <div class="coord-name">Manoj R</div>
+            <a href="tel:+919000033333" class="coord-phone">📞 +91 90000 33333</a>
+          </div>
+        </div>
+        <div class="coord-person">
+          <div class="coord-avatar" aria-hidden="true">SV</div>
+          <div>
+            <div class="coord-name">Shivani V</div>
+            <a href="tel:+919000044444" class="coord-phone">📞 +91 90000 44444</a>
+          </div>
+        </div>
+        <a href="mailto:comfesta2k26@gmail.com" class="coord-email">comfesta2k26@gmail.com</a>
+      </div>
+    </div>
+
+    <h3 class="sub-section-title">Event Coordinators</h3>
+    <div class="coord-grid">
+      <div class="coord-card">
+        <div class="coord-role-tag tech-tag">Technical Events</div>
+        <div class="coord-event-block">
+          <div class="coord-event-name">Paper Presentation &amp; QR Decrypt Hunt</div>
+          <div class="coord-person-inline">
+            <div class="coord-avatar-sm" aria-hidden="true">VR</div>
+            <span>Vanaja R</span>
+            <a href="tel:+919000055555" class="coord-phone-inline">📞 90000 55555</a>
+          </div>
+        </div>
+        <div class="coord-event-block">
+          <div class="coord-event-name">Auction Coding &amp; AI Vibe Coding</div>
+          <div class="coord-person-inline">
+            <div class="coord-avatar-sm" aria-hidden="true">BN</div>
+            <span>Bhuvaneeshwari N</span>
+            <a href="tel:+919000066666" class="coord-phone-inline">📞 90000 66666</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="coord-card">
+        <div class="coord-role-tag nontech-tag">Non-Technical Events</div>
+        <div class="coord-event-block">
+          <div class="coord-event-name">Image Finding &amp; Dumb Charades</div>
+          <div class="coord-person-inline">
+            <div class="coord-avatar-sm" aria-hidden="true">AM</div>
+            <span>Abdul Muthalaif M</span>
+            <a href="tel:+919000077777" class="coord-phone-inline">📞 90000 77777</a>
+          </div>
+        </div>
+        <div class="coord-event-block">
+          <div class="coord-event-name">Gaming Arena &amp; Ads On Spot</div>
+          <div class="coord-person-inline">
+            <div class="coord-avatar-sm" aria-hidden="true">SR</div>
+            <span>Shajith Riswan J</span>
+            <a href="tel:+919000088888" class="coord-phone-inline">📞 90000 88888</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick contact dock -->
+    <div class="contact-dock-wrap">
+      <h3 class="contact-dock-title">Reach Us Instantly</h3>
+      <ul class="contact-dock">
+        <li><a href="tel:+919000055555" class="dock-btn" aria-label="Call us"><i class="fa-solid fa-phone"></i></a></li>
+        <li><a href="mailto:comfesta2k26@gmail.com" class="dock-btn" aria-label="Email us"><i class="fa-solid fa-envelope"></i></a></li>
+        <li><a href="#venue" class="dock-btn" aria-label="Find venue"><i class="fa-solid fa-map-location-dot"></i></a></li>
+        <li><a href="#faq" class="dock-btn" aria-label="View FAQ"><i class="fa-solid fa-circle-question"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VENUE ===== -->
+<section id="venue" class="section">
+  <div class="container">
+    <div class="section-label">07 — Venue</div>
+    <h2 class="section-headline">University College of Engineering, Villupuram</h2>
+    <div class="venue-info-grid">
+      <div class="venue-info-card">
+        <div class="venue-icon" aria-hidden="true"><i class="fa-solid fa-route"></i></div>
+        <h4>Getting There</h4>
+        <p>The campus is well connected by road from Villupuram town, roughly 15 minutes from Villupuram Junction railway station.</p>
+      </div>
+      <div class="venue-info-card">
+        <div class="venue-icon" aria-hidden="true"><i class="fa-solid fa-door-open"></i></div>
+        <h4>On Arrival</h4>
+        <p>Head to the registration desk near the main block with your college ID and QR code for a quick check-in.</p>
+      </div>
+    </div>
+    <div class="map-wrapper">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d993.6249080899889!2d79.51232084716922!3d11.950605120453123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5356d91e42871f%3A0xc43a95c77c96be61!2sUniversity%20College%20of%20Engineering%20Villupuram!5e1!3m2!1sen!2sin!4v1771280269365!5m2!1sen!2sin"
+        width="100%"
+        height="450"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="University College of Engineering Villupuram on Google Maps"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" class="section section-dark">
+  <div class="container">
+    <div class="section-label">08 — FAQ</div>
+    <h2 class="section-headline">Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Who can participate in COMFESTA 2K26?</button>
+        <div class="faq-a" role="region"><p>Open to all UG and PG students from any recognized engineering college.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How do I register?</button>
+        <div class="faq-a" role="region"><p>Fill the Google Form linked in the Registration section and complete the payment.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What is the registration fee?</button>
+        <div class="faq-a" role="region"><p>₹200 per person for online registration, and ₹250 for spot registration at the venue.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Can I take part in more than one event?</button>
+        <div class="faq-a" role="region"><p>Yes, as long as your chosen events don't overlap on the schedule.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Will I receive a certificate?</button>
+        <div class="faq-a" role="region"><p>Every registered participant receives a certificate; winners additionally receive cash prizes.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">How will I get my registration confirmation?</button>
+        <div class="faq-a" role="region"><p>A QR code carrying your registration details is generated and emailed to you right after you submit the form.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">What should I carry on the day of the event?</button>
+        <div class="faq-a" role="region"><p>Your college ID card and your QR code, either printed or on your phone.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is accommodation available?</button>
+        <div class="faq-a" role="region"><p>Details on accommodation will be shared closer to the event date — check back or contact the coordinators.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Are spot registrations allowed?</button>
+        <div class="faq-a" role="region"><p>Yes, subject to seat availability, at the spot registration fee of ₹250.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Who do I contact for doubts?</button>
+        <div class="faq-a" role="region"><p>Reach out to any of the coordinators listed in the Team section above, or email <a href="mailto:comfesta2k26@gmail.com">comfesta2k26@gmail.com</a>.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="footer">
+  <div class="footer-bg" aria-hidden="true">
+    <canvas id="footerCanvas"></canvas>
+  </div>
+  <div class="footer-content">
+    <div class="footer-cta-text">
+      <div class="footer-see-you">SEE YOU AT</div>
+      <div class="footer-brand-large">COMFESTA 2K26</div>
+    </div>
+    <div class="footer-meta">
+      <div class="footer-col">
+        <div class="footer-logo-wrap">
+          <img src="logo.png" alt="Anna University emblem" width="48" height="48">
+          <div>
+            <div class="footer-dept">Dept. of Computer Science Engineering</div>
+            <div class="footer-college">University College of Engineering, Villupuram</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Navigate</h4>
+        <nav aria-label="Footer navigation">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#events">Events</a>
+          <a href="#schedule">Schedule</a>
+          <a href="#register-section">Register</a>
+          <a href="#guidelines">Guidelines</a>
+          <a href="#coordinators">Team</a>
+          <a href="#venue">Venue</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col-title">Contact</h4>
+        <a href="tel:+919000055555" class="footer-contact-link">
+          <span class="footer-contact-icon"><i class="fa-solid fa-phone"></i></span> +91 90000 55555
+        </a>
+        <a href="mailto:comfesta2k26@gmail.com" class="footer-contact-link">
+          <span class="footer-contact-icon"><i class="fa-solid fa-envelope"></i></span> comfesta2k26@gmail.com
+        </a>
+        <a href="#venue" class="footer-contact-link">
+          <span class="footer-contact-icon"><i class="fa-solid fa-map-location-dot"></i></span> UCEV Campus, Villupuram
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 COMFESTA · Department of Computer Science Engineering · UCEV</div>
+      <div class="footer-bottom-right">
+        <div class="footer-tagline">Code. Compete. Conquer.</div>
+        <a href="#home" class="footer-top-link" aria-label="Back to top">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== FAB + BACK TO TOP ===== -->
+<a href="#register-section" id="fabRegister" class="fab-register magnetic-btn" aria-label="Register now">Register</a>
+<button id="backToTop" class="back-to-top" onclick="scrollToTop()" aria-label="Scroll to top">↑</button>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="script.js"></script>
+</body>
+</html>
